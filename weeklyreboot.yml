@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: Cron job for weekly reboot
+    cron:
+      name: Weekly reboot
+      special_time: weekly
+      job: "/sbin/reboot now" 

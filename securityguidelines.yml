@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: SSH daemon must not allow authentication using an empty password
+    lineinfile:
+       state: present
+       dest: /etc/ssh/sshd_config
+       regexp: ^#?PermitEmptyPasswords
+       line: PermitEmptyPasswords no
+       validate: sshd -tf %s
+    notify: restart sshd
+
+  handlers:
+    - name: restart sshd
+      service:
+         name: sshd
+         state: restarted
+    
+    
+       
